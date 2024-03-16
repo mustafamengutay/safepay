@@ -4,6 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
+const errorHandler = require('./middlewares/error');
+
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -13,16 +15,7 @@ app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
 
-app.use((error, req, res, next) => {
-    console.log(error);
-    const statusCode = error.statusCode || 500;
-    const message = error.message;
-    const errors = error.array;
-    res.status(statusCode).json({
-        message,
-        errors,
-    });
-});
+app.use(errorHandler.customErrorHandler);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
