@@ -6,6 +6,7 @@ const dotenv = require('dotenv').config();
 
 const errorHandler = require('./middlewares/error');
 
+const userRoutes = require('./routes/user');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
 
 app.use(errorHandler.customErrorHandler);
 
@@ -26,4 +28,3 @@ mongoose.connect(process.env.MONGO_URI)
         console.log('Server Connection Error!');
         console.log(error);
     });
-
