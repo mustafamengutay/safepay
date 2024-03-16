@@ -7,6 +7,7 @@ const dotenv = require('dotenv').config();
 const errorHandler = require('./middlewares/error');
 
 const userRoutes = require('./routes/user');
+const staffRoutes = require('./routes/staff');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
+app.use('/staff', staffRoutes);
 app.use('/user', userRoutes);
 
 app.use(errorHandler.customErrorHandler);
