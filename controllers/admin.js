@@ -13,7 +13,7 @@ const postCreateUser = async (req, res, next) => {
         const error = new Error('Validation Error!');
         error.statusCode = 422;
         error.array = errors.array();
-        throw error;
+        return next(error);
     }
 
     try {
