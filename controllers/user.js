@@ -1,5 +1,9 @@
 const User = require('../models/user');
 
+/**
+ * @description     Update a user's gross salary
+ * @route           PATCH /user/gross-salary
+ */
 const updateUserGrossSalary = async (req, res, next) => {
     const userId = req.body.id; // for test
     const grossSalary = req.body.grossSalary;
