@@ -19,6 +19,24 @@ const calculate = (grossSalary) => {
     };
 };
 
+
+/**
+ * 
+ * @param {Object} taxes contains socialInsurance, generalHealthSystem, and monthlyTax
+ *  which is used to update user's taxes.
+ * @returns An object contains total tax and net salary.
+ */
+const update = (taxes) => {
+    const totalTax = taxes.socialInsurance + taxes.generalHealthSystem + taxes.monthlyTax;
+    const monthlyNetSalary = taxes.grossSalary - totalTax;
+
+    return {
+        totalTax: Number(totalTax).toFixed(2),
+        monthlyNetSalary: monthlyNetSalary.toFixed(2),
+    };
+};
+
 module.exports = {
     calculate,
+    update,
 };
