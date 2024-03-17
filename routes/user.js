@@ -1,6 +1,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 
+const isAuth = require('../middlewares/auth');
 const userController = require('../controllers/user');
 
 const router = express.Router();
@@ -14,6 +15,7 @@ router.patch(
             .isLength({ min: 1 })
             .notEmpty(),
     ],
+    isAuth,
     userController.updateUserGrossSalary,
 );
 
