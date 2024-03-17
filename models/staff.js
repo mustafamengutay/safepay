@@ -9,6 +9,10 @@ const staffSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true, });
 
 module.exports = mongoose.model('Staff', staffSchema);

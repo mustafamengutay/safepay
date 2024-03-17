@@ -9,6 +9,10 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true, });
 
 module.exports = mongoose.model('Admin', adminSchema);
