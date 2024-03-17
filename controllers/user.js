@@ -36,6 +36,36 @@ const updateUserGrossSalary = async (req, res, next) => {
     }
 };
 
+const getTaxes = async (req, res, next) => {
+    const userId = req.userId;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            const error = new Error('User not found.');
+            error.statusCode = 404;
+            return next(error);
+        }
+
+        res.status(200).json({
+            message: `${user.name} ${user.surname}'s taxes were fetched successfully!`,
+            taxes: {
+                grossSalary: user.grossSalary,
+                socialInsurance: user.netSalary.socialInsurance,
+                generalHealthSystem: user.netSalary.generalHealthSystem,
+                monthlyNetSalary: user.netSalary.monthlyNetSalary,
+                totalTax: user.netSalary.totalTax,
+            },
+        });
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+    }
+};
+
 module.exports = {
+    getTaxes,
     updateUserGrossSalary,
 };

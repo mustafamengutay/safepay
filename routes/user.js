@@ -6,6 +6,8 @@ const userController = require('../controllers/user');
 
 const router = express.Router();
 
+router.get('/get-taxes', isAuth(['user']), userController.getTaxes);
+
 router.patch(
     '/gross-salary',
     [
