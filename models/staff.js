@@ -11,6 +11,7 @@ const staffSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        default: 'staff',
         required: true,
     },
 }, { timestamps: true, });
