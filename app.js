@@ -6,6 +6,7 @@ const dotenv = require('dotenv').config();
 
 const errorHandler = require('./middlewares/error');
 
+const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const staffRoutes = require('./routes/staff');
 const adminRoutes = require('./routes/admin');
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use('/admin', adminRoutes);
 app.use('/staff', staffRoutes);
 app.use('/user', userRoutes);
+app.use(authRoutes);
 
 app.use(errorHandler.customErrorHandler);
 
