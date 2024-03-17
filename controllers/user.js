@@ -15,7 +15,13 @@ const updateUserGrossSalary = async (req, res, next) => {
             error.statusCode = 404;
             return next(error);
         }
+
+        // TODO: Apply the DES algorithm
         user.grossSalary = grossSalary;
+        user.netSalary.socialInsurance = 0;
+        user.netSalary.generalHealthSystem = 0;
+        user.netSalary.totalTax = 0;
+        user.netSalary.monthlyNetSalary = 0;
         await user.save();
 
         res.status(200).json({
