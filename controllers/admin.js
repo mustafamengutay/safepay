@@ -2,12 +2,12 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
+const Staff = require('../models/staff');
 const Admin = require('../models/admin');
 
 /**
  * @description     Create an admin
  * @route           POST /admin/create-admin
- * @access          Private
  */
 const postCreateAdmin = async (req, res, next) => {
     const errors = validationResult(req);
@@ -31,6 +31,41 @@ const postCreateAdmin = async (req, res, next) => {
         res.status(201).json({
             message: 'Admin created successfully!',
             admin,
+        });
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+    }
+};
+
+/**
+ * @description     Create a staff
+ * @route           POST /admin/create-staff
+ */
+const postCreateStaff = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Error!');
+        error.statusCode = 422;
+        error.array = errors.array();
+        return next(error);
+    }
+
+    try {
+        const email = req.body.email;
+        const password = await bcrypt.hash(req.body.password, 12);
+
+        const newStaff = new Staff({
+            email,
+            password,
+        });
+        const staff = await newStaff.save();
+
+        res.status(201).json({
+            message: 'Staff created successfully!',
+            staff,
         });
     } catch (error) {
         if (!error.statusCode) {
@@ -81,5 +116,6 @@ const postCreateUser = async (req, res, next) => {
 
 module.exports = {
     postCreateAdmin,
+    postCreateStaff,
     postCreateUser,
 };

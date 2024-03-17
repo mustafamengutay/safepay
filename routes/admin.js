@@ -22,6 +22,21 @@ router.post(
 );
 
 router.post(
+    '/create-staff',
+    [
+        body('email')
+            .trim()
+            .isEmail()
+            .notEmpty(),
+        body('password')
+            .isLength({ min: 6 })
+            .notEmpty(),
+    ],
+    isAuth(['admin']),
+    adminController.postCreateStaff,
+);
+
+router.post(
     '/create-user',
     [
         body('name')
