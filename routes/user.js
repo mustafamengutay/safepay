@@ -8,6 +8,19 @@ const router = express.Router();
 
 router.get('/get-taxes', isAuth(['user']), userController.getTaxes);
 
+router.post(
+    '/pay-taxes',
+    [
+        body('amount')
+            .trim()
+            .isNumeric()
+            .isLength({ min: 1 })
+            .notEmpty(),
+    ],
+    isAuth(['user']),
+    userController.postPayTaxes,
+);
+
 router.patch(
     '/gross-salary',
     [

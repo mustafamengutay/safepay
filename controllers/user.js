@@ -36,6 +36,10 @@ const updateUserGrossSalary = async (req, res, next) => {
     }
 };
 
+/**
+ * @description     Get a user's taxes
+ * @route           GET /user/get-taxes
+ */
 const getTaxes = async (req, res, next) => {
     const userId = req.userId;
 
@@ -65,7 +69,51 @@ const getTaxes = async (req, res, next) => {
     }
 };
 
+/**
+ * @description     Pay taxes
+ * @route           POST /user/pay-taxes
+ */
+const postPayTaxes = async (req, res, next) => {
+    const userId = req.userId;
+    const amount = req.body.amount;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            const error = new Error('User not found.');
+            error.statusCode = 404;
+            return next(error);
+        }
+
+        if (amount < user.netSalary.totalTax) {
+            const error = new Error('You do not have enough money to pay your taxes!');
+            error.statusCode = 404;
+            return next(error);
+        } else if (amount > user.netSalary.totalTax) {
+            const error = new Error('You entered more than your tax fee.');
+            error.statusCode = 404;
+            return next(error);
+        } else {
+            user.netSalary.totalTax -= amount;
+            user.netSalary.socialInsurance = 0;
+            user.netSalary.generalHealthSystem = 0;
+            await user.save();
+
+            res.status(200).json({
+                message: 'Your taxes were successfully paid!',
+                netSalary: user.netSalary,
+            });
+        }
+    } catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
+    }
+};
+
 module.exports = {
     getTaxes,
+    postPayTaxes,
     updateUserGrossSalary,
 };
