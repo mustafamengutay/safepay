@@ -15,7 +15,7 @@ router.patch(
             .isLength({ min: 1 })
             .notEmpty(),
     ],
-    isAuth,
+    isAuth(['user']),
     userController.updateUserGrossSalary,
 );
 

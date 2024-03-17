@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const Admin = require('../models/admin');
+const Staff = require('../models/staff');
 
 /**
  * @description     Login to the system as a user
@@ -21,7 +23,13 @@ const postLogin = async (req, res, next) => {
     const password = req.body.password;
 
     try {
-        const user = await User.findOne({ email });
+        let user = await User.findOne({ email });
+        if (!user) {
+            user = await Staff.findOne({ email });
+        }
+        if (!user) {
+            user = await Admin.findOne({ email });
+        }
         if (!user) {
             const error = new Error('A user with this email could not be found.');
             error.statusCode = 401;
@@ -37,6 +45,7 @@ const postLogin = async (req, res, next) => {
 
         const token = jwt.sign({
             email: user.email,
+            userRole: user.role,
             userId: user._id.toString(),
         },
             'cmpe455supersecret',
@@ -47,6 +56,7 @@ const postLogin = async (req, res, next) => {
             message: 'Login successful!',
             token: token,
             userId: user._id.toString(),
+            userRole: user.role,
         });
     } catch (error) {
         if (!error.statusCode) {
