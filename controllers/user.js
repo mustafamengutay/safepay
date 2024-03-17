@@ -21,7 +21,7 @@ const updateUserGrossSalary = async (req, res, next) => {
         user.netSalary.socialInsurance = 0;
         user.netSalary.generalHealthSystem = 0;
         user.netSalary.totalTax = 0;
-        user.netSalary.monthlyNetSalary = 0;
+        user.grossSalary = 0;
         await user.save();
 
         res.status(200).json({
@@ -53,6 +53,7 @@ const getTaxes = async (req, res, next) => {
 
         res.status(200).json({
             message: `${user.name} ${user.surname}'s taxes were fetched successfully!`,
+            status: user.status,
             taxes: {
                 grossSalary: user.grossSalary,
                 socialInsurance: user.netSalary.socialInsurance,
@@ -75,7 +76,7 @@ const getTaxes = async (req, res, next) => {
  */
 const postPayTaxes = async (req, res, next) => {
     const userId = req.userId;
-    const amount = req.body.amount;
+    const amount = Number(req.body.amount);
 
     try {
         const user = await User.findById(userId);
@@ -93,10 +94,16 @@ const postPayTaxes = async (req, res, next) => {
             const error = new Error('You entered more than your tax fee.');
             error.statusCode = 404;
             return next(error);
+        } else if (amount === 0) {
+            const error = new Error('You tried to pay 0 Euros.');
+            error.statusCode = 404;
+            return next(error);
         } else {
             user.netSalary.totalTax -= amount;
+            user.grossSalary = 0;
             user.netSalary.socialInsurance = 0;
             user.netSalary.generalHealthSystem = 0;
+            user.status = 'paid';
             await user.save();
 
             res.status(200).json({

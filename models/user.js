@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: 0,
     },
+    status: {
+        type: String,
+        default: 'not calculated',
+        required: true,
+    },
     netSalary: {
         socialInsurance: {
             type: Number,

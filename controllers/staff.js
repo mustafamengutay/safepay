@@ -22,6 +22,7 @@ const postCalculateTaxes = async (req, res, next) => {
         user.netSalary.generalHealthSystem = taxes.generalHealthSystem;
         user.netSalary.totalTax = taxes.totalTax;
         user.netSalary.monthlyNetSalary = taxes.monthlyNetSalary;
+        user.status = 'not paid';
         await user.save();
         res.status(200).json({
             message: 'Taxes calculated!',
@@ -68,6 +69,7 @@ const updateUserTax = async (req, res, next) => {
         user.netSalary.generalHealthSystem = generalHealthSystem;
         user.netSalary.totalTax = updatedTaxes.totalTax;
         user.netSalary.monthlyNetSalary = updatedTaxes.monthlyNetSalary;
+        user.status = 'not paid';
         await user.save();
 
         res.status(200).json({
