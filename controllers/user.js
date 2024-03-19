@@ -5,7 +5,7 @@ const User = require('../models/user');
  * @route           PATCH /user/gross-salary
  */
 const updateUserGrossSalary = async (req, res, next) => {
-    const userId = req.body.id; // for test
+    const userId = req.userId;
     const grossSalary = req.body.grossSalary;
 
     try {
@@ -21,12 +21,13 @@ const updateUserGrossSalary = async (req, res, next) => {
         user.netSalary.socialInsurance = 0;
         user.netSalary.generalHealthSystem = 0;
         user.netSalary.totalTax = 0;
-        user.grossSalary = 0;
-        await user.save();
+        user.netSalary.monthlyNetSalary = 0;
+        user.status = 'not calculated';
+        const updatedUser = await user.save();
 
         res.status(200).json({
             message: 'Gross salary updated!',
-            user,
+            user: updatedUser,
         });
     } catch (error) {
         if (!error.statusCode) {
@@ -49,6 +50,16 @@ const getTaxes = async (req, res, next) => {
             const error = new Error('User not found.');
             error.statusCode = 404;
             return next(error);
+        }
+
+        if (user.status === 'not calculated') {
+            return res.status(200).json({
+                message: 'Your taxes have not been calculated yet.',
+            });
+        } else if (user.status === 'paid') {
+            return res.status(200).json({
+                message: 'You have already paid your taxes.',
+            });
         }
 
         res.status(200).json({
@@ -86,6 +97,12 @@ const postPayTaxes = async (req, res, next) => {
             return next(error);
         }
 
+        if (user.status === 'not calculated') {
+            return res.status(200).json({
+                message: 'Your taxes have not been calculated yet.',
+            });
+        }
+
         if (amount < user.netSalary.totalTax) {
             const error = new Error('You do not have enough money to pay your taxes!');
             error.statusCode = 404;
@@ -98,19 +115,19 @@ const postPayTaxes = async (req, res, next) => {
             const error = new Error('You tried to pay 0 Euros.');
             error.statusCode = 404;
             return next(error);
-        } else {
-            user.netSalary.totalTax -= amount;
-            user.grossSalary = 0;
-            user.netSalary.socialInsurance = 0;
-            user.netSalary.generalHealthSystem = 0;
-            user.status = 'paid';
-            await user.save();
-
-            res.status(200).json({
-                message: 'Your taxes were successfully paid!',
-                netSalary: user.netSalary,
-            });
         }
+
+        user.netSalary.totalTax -= amount;
+        user.grossSalary = 0;
+        user.netSalary.socialInsurance = 0;
+        user.netSalary.generalHealthSystem = 0;
+        user.status = 'paid';
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            message: 'Your taxes were successfully paid!',
+            netSalary: updatedUser,
+        });
     } catch (error) {
         if (!error.statusCode) {
             error.statusCode = 500;

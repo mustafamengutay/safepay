@@ -10,23 +10,32 @@ const postCalculateTaxes = async (req, res, next) => {
 
     try {
         const user = await User.findById(userId);
-        const taxes = tax.calculate(user.grossSalary);
         if (!user) {
             const error = new Error('User not found.');
             error.statusCode = 404;
             return next(error);
         }
 
+        if (user.status === 'unpaid') {
+            return res.status(200).json({
+                message: 'Taxes have already been calculated!',
+                user,
+            });
+        }
+
+        const taxes = tax.calculate(user.grossSalary);
+
         // TODO: Apply the DES algorithm
         user.netSalary.socialInsurance = taxes.socialInsurance;
         user.netSalary.generalHealthSystem = taxes.generalHealthSystem;
         user.netSalary.totalTax = taxes.totalTax;
         user.netSalary.monthlyNetSalary = taxes.monthlyNetSalary;
-        user.status = 'not paid';
-        await user.save();
+        user.status = 'unpaid';
+        const updatedUser = await user.save();
+
         res.status(200).json({
             message: 'Taxes calculated!',
-            user,
+            user: updatedUser,
         });
 
     } catch (error) {
@@ -69,12 +78,12 @@ const updateUserTax = async (req, res, next) => {
         user.netSalary.generalHealthSystem = generalHealthSystem;
         user.netSalary.totalTax = updatedTaxes.totalTax;
         user.netSalary.monthlyNetSalary = updatedTaxes.monthlyNetSalary;
-        user.status = 'not paid';
-        await user.save();
+        user.status = 'unpaid';
+        const updatedUser = await user.save();
 
         res.status(200).json({
             message: 'Taxes updated!',
-            user,
+            user: updatedUser,
         });
     } catch (error) {
         if (!error.statusCode) {
