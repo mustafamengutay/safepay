@@ -9,7 +9,7 @@ const router = express.Router();
 router.post(
     '/calculate-taxes',
     [
-        body('grossSalary')
+        body('userId')
             .trim()
             .isNumeric()
             .isLength({ min: 1 })
