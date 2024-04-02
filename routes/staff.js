@@ -11,7 +11,7 @@ router.post(
     [
         body('userId')
             .trim()
-            .isNumeric()
+            .isString()
             .isLength({ min: 1 })
             .notEmpty(),
     ],
