@@ -89,7 +89,7 @@ To run this project, you will need to add the following environment variables to
 | :------- | :------- | :----------- |
 | `userId` | `string` | **Required** |
 
-#### Update user's taxes
+<!-- #### Update user's taxes
 
 ```http
   PATCH /staff/update-taxes
@@ -100,7 +100,7 @@ To run this project, you will need to add the following environment variables to
 | `userId`              | `string` | **Required** |
 | `monthlyTax`          | `number` | **Required** |
 | `socialInsurance`     | `number` | **Required** |
-| `generalHealthSystem` | `number` | **Required** |
+| `generalHealthSystem` | `number` | **Required** | -->
 
 ### Admin
 

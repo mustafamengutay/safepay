@@ -3,40 +3,33 @@
  * @param {Number} grossSalary salary which is used to calculate taxes.
  * @returns An object contains some taxes and net salary.
  */
-const calculate = (grossSalary) => {
+const calculateTaxes = (grossSalary) => {
     const socialInsurance = (grossSalary * 8.8) / 100;
     const generalHealthSystem = (grossSalary * 2.65) / 100;
-    const monthlyTax = (grossSalary * 4) / 100;
+    const incomeTax = (grossSalary * 4) / 100;
 
-    const totalTax = socialInsurance + generalHealthSystem + monthlyTax;
-    const monthlyNetSalary = grossSalary - totalTax;
+    const totalTaxAmount = socialInsurance + generalHealthSystem + incomeTax;
 
     return {
         socialInsurance: socialInsurance.toFixed(2),
         generalHealthSystem: generalHealthSystem.toFixed(2),
-        totalTax: totalTax.toFixed(2),
-        monthlyNetSalary: monthlyNetSalary.toFixed(2),
+        incomeTax: incomeTax.toFixed(2),
+        totalTaxAmount: totalTaxAmount.toFixed(2),
     };
 };
-
 
 /**
  * 
- * @param {Object} taxes contains socialInsurance, generalHealthSystem, and monthlyTax
- *  which is used to update user's taxes.
- * @returns An object contains total tax and net salary.
+ * @param {Number} grossSalary user's gross salary
+ * @param {Number} totalTax user's amount of total tax.
+ * @returns monthly net salary based on gross salary and total tax.
  */
-const update = (taxes) => {
-    const totalTax = taxes.socialInsurance + taxes.generalHealthSystem + taxes.monthlyTax;
-    const monthlyNetSalary = taxes.grossSalary - totalTax;
-
-    return {
-        totalTax: Number(totalTax).toFixed(2),
-        monthlyNetSalary: monthlyNetSalary.toFixed(2),
-    };
+const calculateMonthlyNetSalary = (grossSalary, totalTax) => {
+    const monthlyNetSalary = grossSalary - totalTax;
+    return monthlyNetSalary.toFixed(2);
 };
 
 module.exports = {
-    calculate,
-    update,
+    calculateTaxes,
+    calculateMonthlyNetSalary,
 };

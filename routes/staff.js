@@ -19,27 +19,23 @@ router.post(
     staffController.postCalculateTaxes,
 );
 
-router.patch(
-    '/update-taxes',
-    [
-        body('socialInsurance')
-            .trim()
-            .isNumeric()
-            .isLength({ min: 1 })
-            .notEmpty(),
-        body('generalHealthSystem')
-            .trim()
-            .isNumeric()
-            .isLength({ min: 1 })
-            .notEmpty(),
-        body('totalTax')
-            .trim()
-            .isNumeric()
-            .isLength({ min: 1 })
-            .notEmpty(),
-    ],
-    isAuth(['staff']),
-    staffController.updateUserTax,
-);
+// router.patch(
+//     '/update-taxes',
+//     [
+//         body('userId')
+//             .trim()
+//             .isNumeric()
+//             .isLength({ min: 1 })
+//             .notEmpty(),
+
+//         body('grossSalary')
+//             .trim()
+//             .isNumeric()
+//             .isLength({ min: 1 })
+//             .notEmpty(),
+//     ],
+//     isAuth(['staff']),
+//     staffController.updateTaxes,
+// );
 
 module.exports = router;

@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const Staff = require('../models/staff');
 const Admin = require('../models/admin');
+const Tax = require('../models/tax');
 
 /**
  * @description     Create an admin
@@ -100,7 +101,10 @@ const postCreateUser = async (req, res, next) => {
             email,
             password,
         });
+        const userTax = new Tax({ userId: newUser._id });
+
         const user = await newUser.save();
+        await userTax.save();
 
         res.status(201).json({
             message: 'User created successfully!',

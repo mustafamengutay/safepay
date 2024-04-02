@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Tax = require('../models/tax');
 
 /**
  * @description     Update a user's gross salary
@@ -9,25 +10,26 @@ const updateUserGrossSalary = async (req, res, next) => {
     const grossSalary = req.body.grossSalary;
 
     try {
-        const user = await User.findById(userId);
-        if (!user) {
-            const error = new Error('User not found.');
+        const userTaxDetails = await Tax.findOne({ userId });
+        if (!userTaxDetails) {
+            const error = new Error('User\'s taxes were not found.');
             error.statusCode = 404;
             return next(error);
         }
 
         // TODO: Apply the DES algorithm
-        user.grossSalary = grossSalary;
-        user.netSalary.socialInsurance = 0;
-        user.netSalary.generalHealthSystem = 0;
-        user.netSalary.totalTax = 0;
-        user.netSalary.monthlyNetSalary = 0;
-        user.status = 'not calculated';
-        const updatedUser = await user.save();
+        userTaxDetails.grossSalary = grossSalary;
+        userTaxDetails.tax.socialInsurance = 0;
+        userTaxDetails.tax.generalHealthSystem = 0;
+        userTaxDetails.tax.incomeTax = 0;
+        userTaxDetails.tax.totalTaxAmount = 0;
+        userTaxDetails.monthlyNetSalary = 0;
+        userTaxDetails.status = 'not calculated';
+        const updatedUserTaxDetails = await userTaxDetails.save();
 
         res.status(200).json({
             message: 'Gross salary updated!',
-            user: updatedUser,
+            userTaxDetails: updatedUserTaxDetails,
         });
     } catch (error) {
         if (!error.statusCode) {
@@ -45,33 +47,27 @@ const getTaxes = async (req, res, next) => {
     const userId = req.userId;
 
     try {
-        const user = await User.findById(userId);
-        if (!user) {
-            const error = new Error('User not found.');
+        const userTaxDetails = await Tax.findOne({ userId });
+        if (!userTaxDetails) {
+            const error = new Error('User\'s taxes were not found.');
             error.statusCode = 404;
             return next(error);
         }
 
-        if (user.status === 'not calculated') {
+        if (userTaxDetails.status === 'not calculated') {
             return res.status(200).json({
                 message: 'Your taxes have not been calculated yet.',
             });
-        } else if (user.status === 'paid') {
+        } else if (userTaxDetails.status === 'paid') {
             return res.status(200).json({
                 message: 'You have already paid your taxes.',
             });
         }
 
         res.status(200).json({
-            message: `${user.name} ${user.surname}'s taxes were fetched successfully!`,
-            status: user.status,
-            taxes: {
-                grossSalary: user.grossSalary,
-                socialInsurance: user.netSalary.socialInsurance,
-                generalHealthSystem: user.netSalary.generalHealthSystem,
-                monthlyNetSalary: user.netSalary.monthlyNetSalary,
-                totalTax: user.netSalary.totalTax,
-            },
+            message: `User's taxes were fetched successfully!`,
+            status: userTaxDetails.status,
+            taxes: userTaxDetails.tax,
         });
     } catch (error) {
         if (!error.statusCode) {
@@ -90,24 +86,24 @@ const postPayTaxes = async (req, res, next) => {
     const amount = Number(req.body.amount);
 
     try {
-        const user = await User.findById(userId);
-        if (!user) {
-            const error = new Error('User not found.');
+        const userTaxDetails = await Tax.findOne({ userId });
+        if (!userTaxDetails) {
+            const error = new Error('User\'s taxes were not found.');
             error.statusCode = 404;
             return next(error);
         }
 
-        if (user.status === 'not calculated') {
+        if (userTaxDetails.status === 'not calculated') {
             return res.status(200).json({
                 message: 'Your taxes have not been calculated yet.',
             });
         }
 
-        if (amount < user.netSalary.totalTax) {
+        if (amount < userTaxDetails.tax.totalTaxAmount) {
             const error = new Error('You do not have enough money to pay your taxes!');
             error.statusCode = 404;
             return next(error);
-        } else if (amount > user.netSalary.totalTax) {
+        } else if (amount > userTaxDetails.tax.totalTaxAmount) {
             const error = new Error('You entered more than your tax fee.');
             error.statusCode = 404;
             return next(error);
@@ -117,16 +113,17 @@ const postPayTaxes = async (req, res, next) => {
             return next(error);
         }
 
-        user.netSalary.totalTax -= amount;
-        user.grossSalary = 0;
-        user.netSalary.socialInsurance = 0;
-        user.netSalary.generalHealthSystem = 0;
-        user.status = 'paid';
-        const updatedUser = await user.save();
+        userTaxDetails.tax.totalTaxAmount -= amount;
+        userTaxDetails.tax.socialInsurance = 0;
+        userTaxDetails.tax.generalHealthSystem = 0;
+        userTaxDetails.tax.incomeTax = 0;
+        userTaxDetails.monthlyNetSalary = 0;
+        userTaxDetails.status = 'paid';
+        const updatedUserTaxDetails = await userTaxDetails.save();
 
         res.status(200).json({
             message: 'Your taxes were successfully paid!',
-            netSalary: updatedUser,
+            netSalary: updatedUserTaxDetails.monthlyNetSalary,
         });
     } catch (error) {
         if (!error.statusCode) {
