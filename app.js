@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
+const helmet = require('helmet');
 
 const errorHandler = require('./middlewares/error');
 
@@ -14,6 +15,7 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 
 app.use(cors());
+app.use(helmet());
 app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
