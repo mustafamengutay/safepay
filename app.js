@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const errorHandler = require('./middlewares/error');
 
@@ -14,8 +15,14 @@ const adminRoutes = require('./routes/admin');
 
 const app = express();
 
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000,
+    limit: 100,
+});
+
 app.use(cors());
 app.use(helmet());
+app.use(limiter);
 app.use(bodyParser.json());
 
 app.use('/admin', adminRoutes);
