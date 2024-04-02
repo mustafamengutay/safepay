@@ -36,8 +36,8 @@ const postLogin = async (req, res, next) => {
             return next(error);
         }
 
-        const isPasswordCorrent = await bcrypt.compare(password, user.password);
-        if (!isPasswordCorrent) {
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
             const error = new Error('Wrong password.');
             error.statusCode = 401;
             return next(error);
