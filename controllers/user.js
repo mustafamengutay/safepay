@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 const User = require('../models/user');
 const Tax = require('../models/tax');
 
@@ -6,6 +8,14 @@ const Tax = require('../models/tax');
  * @route           PATCH /user/gross-salary
  */
 const updateUserGrossSalary = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Error!');
+        error.statusCode = 422;
+        error.array = errors.array();
+        return next(error);
+    }
+
     const userId = req.userId;
     const grossSalary = req.body.grossSalary;
 
@@ -44,6 +54,14 @@ const updateUserGrossSalary = async (req, res, next) => {
  * @route           GET /user/get-taxes
  */
 const getTaxes = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Error!');
+        error.statusCode = 422;
+        error.array = errors.array();
+        return next(error);
+    }
+
     const userId = req.userId;
 
     try {
@@ -82,6 +100,14 @@ const getTaxes = async (req, res, next) => {
  * @route           POST /user/pay-taxes
  */
 const postPayTaxes = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Error!');
+        error.statusCode = 422;
+        error.array = errors.array();
+        return next(error);
+    }
+
     const userId = req.userId;
     const amount = Number(req.body.amount);
 
