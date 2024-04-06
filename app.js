@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const io = require('./sockets/socket');
 
 const errorHandler = require('./middlewares/error');
 
@@ -34,8 +35,11 @@ app.use(errorHandler.customErrorHandler);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
+        const server = app.listen(3000);
         console.log('Server is running!');
-        app.listen(3000);
+        io.initializeSocket(server).on('connection', () => {
+            console.log('Client connected!');
+        });
     })
     .catch(error => {
         console.log('Server Connection Error!');

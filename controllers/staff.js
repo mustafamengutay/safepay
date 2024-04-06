@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Tax = require('../models/tax');
 
 const taxCalculator = require('../utils/tax');
+const io = require('../sockets/socket');
 
 /**
  * @description     Calculate a user's taxes
@@ -50,6 +51,8 @@ const postCalculateTaxes = async (req, res, next) => {
         userTaxDetails.monthlyNetSalary = monthlyNetSalary;
         userTaxDetails.status = 'unpaid';
         const updatedUserTaxDetails = await userTaxDetails.save();
+
+        io.getIO().emit('taxInvoice', 'Your taxes were calculated!');
 
         res.status(200).json({
             message: 'Taxes calculated!',
