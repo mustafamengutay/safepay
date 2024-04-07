@@ -52,7 +52,10 @@ const postCalculateTaxes = async (req, res, next) => {
         userTaxDetails.status = 'unpaid';
         const updatedUserTaxDetails = await userTaxDetails.save();
 
-        io.getIO().emit('taxInvoice', 'Your taxes were calculated!');
+        io.getIO().emit('taxInvoiceNotification', {
+            message: 'Your taxes were calculated!',
+            amount: userTaxDetails.tax.totalTaxAmount,
+        });
 
         res.status(200).json({
             message: 'Taxes calculated!',
