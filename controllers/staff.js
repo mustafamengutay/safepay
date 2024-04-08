@@ -1,5 +1,3 @@
-const { validationResult } = require('express-validator');
-
 const User = require('../models/user');
 const Tax = require('../models/tax');
 
@@ -11,14 +9,6 @@ const io = require('../sockets/socket');
  * @route           POST /staff/calculate-taxes
  */
 const postCalculateTaxes = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation Error!');
-        error.statusCode = 422;
-        error.array = errors.array();
-        return next(error);
-    }
-
     const userId = req.body.userId;
 
     try {

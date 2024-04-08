@@ -1,5 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
+const inputValidator = require('../middlewares/inputValidator');
 
 const isAuth = require('../middlewares/auth');
 const userController = require('../controllers/user');
@@ -17,6 +18,7 @@ router.post(
             .isLength({ min: 1 })
             .notEmpty(),
     ],
+    inputValidator,
     isAuth(['user']),
     userController.postPayTaxes,
 );
@@ -30,6 +32,7 @@ router.patch(
             .isLength({ min: 1 })
             .notEmpty(),
     ],
+    inputValidator,
     isAuth(['user']),
     userController.updateUserGrossSalary,
 );

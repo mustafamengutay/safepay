@@ -1,5 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
+const inputValidator = require('../middlewares/inputValidator');
 
 const authController = require('../controllers/auth');
 
@@ -17,6 +18,7 @@ router.post(
             .isString()
             .notEmpty(),
     ],
+    inputValidator,
     authController.postLogin,
 );
 

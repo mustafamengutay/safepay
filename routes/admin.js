@@ -1,5 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
+const inputValidator = require('../middlewares/inputValidator');
 
 const isAuth = require('../middlewares/auth');
 const adminController = require('../controllers/admin');
@@ -17,6 +18,7 @@ router.post(
             .isLength({ min: 6 })
             .notEmpty(),
     ],
+    inputValidator,
     isAuth(['admin']),
     adminController.postCreateAdmin,
 );
@@ -32,6 +34,7 @@ router.post(
             .isLength({ min: 6 })
             .notEmpty(),
     ],
+    inputValidator,
     isAuth(['admin']),
     adminController.postCreateStaff,
 );
@@ -57,6 +60,7 @@ router.post(
             .isLength({ min: 6 })
             .notEmpty(),
     ],
+    inputValidator,
     isAuth(['admin']),
     adminController.postCreateUser,
 );

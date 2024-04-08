@@ -1,5 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
+const inputValidator = require('../middlewares/inputValidator');
 
 const isAuth = require('../middlewares/auth');
 const staffController = require('../controllers/staff');
@@ -15,27 +16,9 @@ router.post(
             .isLength({ min: 1 })
             .notEmpty(),
     ],
+    inputValidator,
     isAuth(['staff']),
     staffController.postCalculateTaxes,
 );
-
-// router.patch(
-//     '/update-taxes',
-//     [
-//         body('userId')
-//             .trim()
-//             .isNumeric()
-//             .isLength({ min: 1 })
-//             .notEmpty(),
-
-//         body('grossSalary')
-//             .trim()
-//             .isNumeric()
-//             .isLength({ min: 1 })
-//             .notEmpty(),
-//     ],
-//     isAuth(['staff']),
-//     staffController.updateTaxes,
-// );
 
 module.exports = router;

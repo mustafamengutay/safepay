@@ -1,4 +1,3 @@
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
@@ -11,16 +10,9 @@ const Tax = require('../models/tax');
  * @route           POST /admin/create-admin
  */
 const postCreateAdmin = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation Error!');
-        error.statusCode = 422;
-        error.array = errors.array();
-        return next(error);
-    }
+    const email = req.body.email;
 
     try {
-        const email = req.body.email;
         const password = await bcrypt.hash(req.body.password, 12);
 
         const newAdmin = new Admin({
@@ -46,16 +38,9 @@ const postCreateAdmin = async (req, res, next) => {
  * @route           POST /admin/create-staff
  */
 const postCreateStaff = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation Error!');
-        error.statusCode = 422;
-        error.array = errors.array();
-        return next(error);
-    }
+    const email = req.body.email;
 
     try {
-        const email = req.body.email;
         const password = await bcrypt.hash(req.body.password, 12);
 
         const newStaff = new Staff({
@@ -81,18 +66,11 @@ const postCreateStaff = async (req, res, next) => {
  * @route           POST /admin/create-user
  */
 const postCreateUser = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation Error!');
-        error.statusCode = 422;
-        error.array = errors.array();
-        return next(error);
-    }
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const email = req.body.email;
 
     try {
-        const name = req.body.name;
-        const surname = req.body.surname;
-        const email = req.body.email;
         const password = await bcrypt.hash(req.body.password, 12);
 
         const newUser = new User({

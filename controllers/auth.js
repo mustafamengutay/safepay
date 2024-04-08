@@ -1,4 +1,3 @@
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -11,14 +10,6 @@ const Staff = require('../models/staff');
  * @route           POST /login
  */
 const postLogin = async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation Error!');
-        error.statusCode = 422;
-        error.array = errors.array();
-        return next(error);
-    }
-
     const email = req.body.email;
     const password = req.body.password;
 
