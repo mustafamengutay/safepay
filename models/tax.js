@@ -5,6 +5,7 @@ const taxSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true,
+        index: true,
     },
     grossSalary: {
         type: Number,
