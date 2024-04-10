@@ -8,6 +8,9 @@ const rateLimit = require('express-rate-limit');
 const io = require('./sockets/socket');
 const numCPUs = require('os').availableParallelism();
 const cluster = require('cluster');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 
 const errorHandler = require('./middlewares/error');
 
@@ -38,10 +41,16 @@ if (cluster.isPrimary) {
         standardHeaders: 'draft-7',
     });
 
+    const accessLogStream = fs.createWriteStream(
+        path.join(__dirname, 'otps.log'),
+        { flags: 'a' },
+    );
+
     app.use(cors());
     app.use(helmet());
     app.use(limiter);
     app.use(bodyParser.json());
+    app.use(morgan('tiny', { stream: accessLogStream }));
 
     app.use('/admin', adminRoutes);
     app.use('/staff', staffRoutes);
