@@ -1,6 +1,6 @@
-# Online Tax Payment System
+# SafePay - Online Tax Payment System
 
-Online Tax Payment System (OTPS) having three actors as Sysadmin, Staff, User. Sysadmin is responsible for introducing users to the system. Staff is responsible for entering/updating users’ tax records, calculating taxes, and sending users invoices for payment. User receives invoices, and pays. Users’ records are stored encrypted by DES. DES secret key is created/updated periodically by Staff. Server has public/private RSA key pair. RSA digital signature is used when sending DES-encrypted invoices. RSA key pair is created/updated by Staff. Hash function (48 bits) used for the digital signature is obtained by XOR of plaintext blocks. Payments while travelling DES-encrypted are protected from tampering with by message authentication code (MAC).
+Online Tax Payment System (OTPS) has three actors Sysadmin, Staff, and User. Sysadmin is responsible for introducing users to the system. Staff is responsible for entering/updating users’ tax records, calculating taxes, and sending users invoices for payment. The user receives invoices and pays. Users’ records are stored encrypted by DES. DES secret key is created/updated periodically by Staff. The server has a public/private RSA key pair. RSA digital signature is used when sending DES-encrypted invoices. RSA key pair is created/updated by Staff. The hash function (48 bits) used for the digital signature is obtained by XOR of plaintext blocks. Payments while travelling DES-encrypted are protected from tampering with by message authentication code (MAC).
 
 ## Run Locally
 
