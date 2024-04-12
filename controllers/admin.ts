@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 
-import bcrypt from 'bcryptjs';
-
-import User from '../models/user';
-import Staff from '../models/staff';
-import Admin from '../models/admin';
-import Tax from '../models/tax';
+import {
+  createAdminService,
+  createStaffService,
+  createUserService,
+} from '../services/admin';
 
 /**
  * @description     Create an admin
@@ -16,16 +15,10 @@ export const postCreateAdmin = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const password: string = await bcrypt.hash(req.body.password, 12);
-
-    const newAdmin = new Admin({
-      email,
-      password,
-    });
-    const admin = await newAdmin.save();
+    const admin = await createAdminService(email, password);
 
     res.status(201).json({
       message: 'Admin created successfully!',
@@ -48,16 +41,10 @@ export const postCreateStaff = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const password: string = await bcrypt.hash(req.body.password, 12);
-
-    const newStaff = new Staff({
-      email,
-      password,
-    });
-    const staff = await newStaff.save();
+    const staff = await createStaffService(email, password);
 
     res.status(201).json({
       message: 'Staff created successfully!',
@@ -80,21 +67,10 @@ export const postCreateUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name, surname, email } = req.body;
+  const { name, surname, email, password } = req.body;
 
   try {
-    const password: string = await bcrypt.hash(req.body.password, 12);
-
-    const newUser = new User({
-      name,
-      surname,
-      email,
-      password,
-    });
-    const userTax = new Tax({ userId: newUser._id });
-
-    const user = await newUser.save();
-    await userTax.save();
+    const user = await createUserService(name, surname, email, password);
 
     res.status(201).json({
       message: 'User created successfully!',
