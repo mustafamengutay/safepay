@@ -143,7 +143,12 @@ To run this project, you will need to add the following environment variables to
 
 **Client:** Loading...
 
-**Server:** Node, Express, MongoDB
+**Server:** TypeScript, Node, Express, MongoDB
+
+## TODO
+
+- <input type="checkbox" disabled /> Add caching layer
+- <input type="checkbox" disabled /> Implement security-based algorithms (DES, RSA, etc.).
 
 ## Authors
 
