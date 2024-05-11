@@ -11,10 +11,10 @@ import {
 
 const router = express.Router();
 
-router.get('/get-taxes', isAuth(['user']), getTaxes);
+router.get('/taxes', isAuth(['user']), getTaxes);
 
 router.post(
-  '/pay-taxes',
+  '/tax-payment',
   [body('amount').trim().isNumeric().isLength({ min: 1 }).notEmpty()],
   inputValidator,
   isAuth(['user']),

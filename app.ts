@@ -55,9 +55,9 @@ if (cluster.isPrimary) {
   app.use(bodyParser.json());
   app.use(morgan('tiny', { stream: accessLogStream }));
 
-  app.use('/admin', adminRoutes);
-  app.use('/staff', staffRoutes);
-  app.use('/user', userRoutes);
+  app.use('/v1/admin', adminRoutes);
+  app.use('/v1/staff', staffRoutes);
+  app.use('/v1/user', userRoutes);
   app.use(authRoutes);
 
   app.use(errorHandler);

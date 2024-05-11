@@ -8,7 +8,7 @@ import { postCalculateTaxes } from '../controllers/staff';
 const router = express.Router();
 
 router.post(
-  '/calculate-taxes',
+  '/tax-calculation',
   [body('userId').trim().isString().isLength({ min: 1 }).notEmpty()],
   inputValidator,
   isAuth(['staff']),

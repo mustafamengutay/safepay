@@ -54,13 +54,13 @@ To run this project, you will need to add the following environment variables to
 #### Get taxes
 
 ```http
-  GET /user/taxes
+  GET /v1/user/taxes
 ```
 
 #### Send the gross salary to the system
 
 ```http
-  PATCH /user/gross-salary
+  PATCH /v1/user/gross-salary
 ```
 
 | Body          | Type     | Description  |
@@ -70,7 +70,7 @@ To run this project, you will need to add the following environment variables to
 #### Pay taxes
 
 ```http
-  POST /user/pay-taxes
+  POST /v1/user/tax-payment
 ```
 
 | Body          | Type     | Description  |
@@ -82,7 +82,7 @@ To run this project, you will need to add the following environment variables to
 #### Calculate taxes
 
 ```http
-  POST /staff/calculate-taxes
+  POST /v1/staff/tax-calculation
 ```
 
 | Body     | Type     | Description  |
@@ -107,7 +107,7 @@ To run this project, you will need to add the following environment variables to
 #### Create a User
 
 ```http
-  POST /admin/create-user
+  POST /v1/admin/user
 ```
 
 | Body       | Type     | Description  |
@@ -120,7 +120,7 @@ To run this project, you will need to add the following environment variables to
 #### Create a Staff
 
 ```http
-  POST /admin/create-staff
+  POST /v1/admin/staff
 ```
 
 | Body       | Type     | Description  |
@@ -131,7 +131,7 @@ To run this project, you will need to add the following environment variables to
 #### Create an Admin
 
 ```http
-  POST /admin/create-admin
+  POST /v1/admin/admin
 ```
 
 | Body       | Type     | Description  |
@@ -154,4 +154,4 @@ To run this project, you will need to add the following environment variables to
 
 - [@Kedu88](https://github.com/Kedu88)
 - [@seyitahmetinci](https://github.com/seyitahmetinci)
-- [@mustafamengutay](https://www.github.com/octokatherine)
+- [@mustafamengutay](https://www.github.com/octokatherine) @ Backend

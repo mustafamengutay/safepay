@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 
 router.post(
-  '/create-admin',
+  '/admin',
   [
     body('email').trim().isEmail().notEmpty(),
     body('password').isLength({ min: 6 }).notEmpty(),
@@ -23,7 +23,7 @@ router.post(
 );
 
 router.post(
-  '/create-staff',
+  '/staff',
   [
     body('email').trim().isEmail().notEmpty(),
     body('password').isLength({ min: 6 }).notEmpty(),
@@ -34,7 +34,7 @@ router.post(
 );
 
 router.post(
-  '/create-user',
+  '/user',
   [
     body('name').trim().isString().isLength({ min: 3 }).notEmpty(),
     body('surname').trim().isString().isLength({ min: 3 }).notEmpty(),
