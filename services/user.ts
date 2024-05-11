@@ -52,9 +52,10 @@ export const payTaxesService = async (userId: string, amount: number) => {
   }
 
   if (userTaxDetails.status === 'not calculated') {
-    return {
-      message: 'Your taxes have not been calculated yet.',
-    };
+    throw new CustomValidationError(
+      404,
+      'Your taxes have not been calculated yet.'
+    );
   }
   if (amount < userTaxDetails.tax.totalTaxAmount) {
     throw new CustomValidationError(
