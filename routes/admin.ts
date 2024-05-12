@@ -8,6 +8,7 @@ import {
   postCreateStaff,
   postCreateUser,
 } from '../controllers/admin';
+import { Roles } from '../enums/roles';
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post(
     body('password').isLength({ min: 6 }).notEmpty(),
   ],
   inputValidator,
-  isAuth(['admin']),
+  isAuth([Roles.Admin]),
   postCreateAdmin
 );
 
@@ -29,7 +30,7 @@ router.post(
     body('password').isLength({ min: 6 }).notEmpty(),
   ],
   inputValidator,
-  isAuth(['admin']),
+  isAuth([Roles.Admin]),
   postCreateStaff
 );
 
@@ -42,7 +43,7 @@ router.post(
     body('password').isLength({ min: 6 }).notEmpty(),
   ],
   inputValidator,
-  isAuth(['admin']),
+  isAuth([Roles.Admin]),
   postCreateUser
 );
 
