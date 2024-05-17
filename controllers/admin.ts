@@ -8,7 +8,7 @@ import {
 
 /**
  * @description     Create an admin
- * @route           POST /admin/create-admin
+ * @route           POST /v1/admin/admin
  */
 export const postCreateAdmin = async (
   req: Request,
@@ -34,7 +34,7 @@ export const postCreateAdmin = async (
 
 /**
  * @description     Create a staff
- * @route           POST /admin/create-staff
+ * @route           POST /v1/admin/staff
  */
 export const postCreateStaff = async (
   req: Request,
@@ -60,7 +60,7 @@ export const postCreateStaff = async (
 
 /**
  * @description     Create a user
- * @route           POST /admin/create-user
+ * @route           POST /v1/admin/user
  */
 export const postCreateUser = async (
   req: Request,

@@ -9,7 +9,7 @@ import {
 
 /**
  * @description     Update a user's gross salary
- * @route           PATCH /user/gross-salary
+ * @route           PATCH /v1/user/gross-salary
  */
 export const updateUserGrossSalary = async (
   req: CustomRequest,
@@ -39,7 +39,7 @@ export const updateUserGrossSalary = async (
 
 /**
  * @description     Get a user's taxes
- * @route           GET /user/get-taxes
+ * @route           GET /v1/user/taxes
  */
 export const getTaxes = async (
   req: CustomRequest,
@@ -62,7 +62,7 @@ export const getTaxes = async (
 
 /**
  * @description     Pay taxes
- * @route           POST /user/pay-taxes
+ * @route           POST /v1/user/tax-payment
  */
 export const postPayTaxes = async (
   req: CustomRequest,
