@@ -4,6 +4,15 @@ import Tax from '../models/tax';
 
 import { calculateMonthlyNetSalary, calculateTaxes } from '../utils/tax';
 
+export const listTaxes = async () => {
+  const taxes = await Tax.find({ status: 'not calculated' });
+
+  return {
+    message: 'All taxes were fetched!',
+    list: taxes,
+  };
+};
+
 export const calculateTaxesService = async (userId: string) => {
   const userTaxDetails = await Tax.findOne({ userId });
   if (!userTaxDetails) {

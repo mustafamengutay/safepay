@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { getIO } from '../sockets/socket';
-import { calculateTaxesService } from '../services/staff';
+import { calculateTaxesService, listTaxes } from '../services/staff';
 
 /**
  * @description     Calculate a user's taxes
- * @route           POST /staff/calculate-taxes
+ * @route           POST /v1/staff/tax-calculation
  */
 export const postCalculateTaxes = async (
   req: Request,
@@ -25,6 +25,30 @@ export const postCalculateTaxes = async (
     res.status(200).json({
       message: userTaxes.message,
       userTaxDetails: userTaxes.details,
+    });
+  } catch (error: any) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+/**
+ * @description     Lists all taxes which are `not calculated`
+ * @route           POST /v1/staff/taxes
+ */
+export const getAllTaxes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const taxList = await listTaxes();
+
+    res.status(200).json({
+      message: taxList.message,
+      taxes: taxList.list,
     });
   } catch (error: any) {
     if (!error.statusCode) {

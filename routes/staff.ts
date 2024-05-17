@@ -4,9 +4,11 @@ import inputValidator from '../middlewares/inputValidator';
 
 import { isAuth } from '../middlewares/auth';
 import { Roles } from '../enums/roles';
-import { postCalculateTaxes } from '../controllers/staff';
+import { postCalculateTaxes, getAllTaxes } from '../controllers/staff';
 
 const router = express.Router();
+
+router.get('/taxes', isAuth([Roles.Staff]), getAllTaxes);
 
 router.post(
   '/tax-calculation',
