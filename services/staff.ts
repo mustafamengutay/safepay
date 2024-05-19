@@ -33,11 +33,11 @@ export const calculateTaxesService = async (userId: string) => {
   );
 
   // TODO: Apply the DES algorithm
-  userTaxDetails.tax.socialInsurance = taxes.socialInsurance;
-  userTaxDetails.tax.generalHealthSystem = taxes.generalHealthSystem;
-  userTaxDetails.tax.incomeTax = taxes.incomeTax;
-  userTaxDetails.tax.totalTaxAmount = taxes.totalTaxAmount;
-  userTaxDetails.monthlyNetSalary = monthlyNetSalary;
+  userTaxDetails.tax.socialInsurance = taxes.socialInsurance.toString();
+  userTaxDetails.tax.generalHealthSystem = taxes.generalHealthSystem.toString();
+  userTaxDetails.tax.incomeTax = taxes.incomeTax.toString();
+  userTaxDetails.tax.totalTaxAmount = taxes.totalTaxAmount.toString();
+  userTaxDetails.monthlyNetSalary = monthlyNetSalary.toString();
   userTaxDetails.status = 'unpaid';
   await userTaxDetails.save();
 

@@ -15,12 +15,12 @@ export const updateUserGrossSalaryService = async (
   }
 
   // TODO: Apply the DES algorithm
-  userTaxDetails.grossSalary = grossSalary;
-  userTaxDetails.tax.socialInsurance = 0;
-  userTaxDetails.tax.generalHealthSystem = 0;
-  userTaxDetails.tax.incomeTax = 0;
-  userTaxDetails.tax.totalTaxAmount = 0;
-  userTaxDetails.monthlyNetSalary = 0;
+  userTaxDetails.grossSalary = grossSalary.toString();
+  userTaxDetails.tax.socialInsurance = '0';
+  userTaxDetails.tax.generalHealthSystem = '0';
+  userTaxDetails.tax.incomeTax = '0';
+  userTaxDetails.tax.totalTaxAmount = '0';
+  userTaxDetails.monthlyNetSalary = '0';
   userTaxDetails.status = 'not calculated';
 
   return await userTaxDetails.save();
@@ -57,22 +57,24 @@ export const payTaxesService = async (userId: string, amount: number) => {
       'Your taxes have not been calculated yet.'
     );
   }
-  if (amount < userTaxDetails.tax.totalTaxAmount) {
+  if (amount < Number(userTaxDetails.tax.totalTaxAmount)) {
     throw new CustomValidationError(
       404,
       'You do not have enough money to pay your taxes!'
     );
-  } else if (amount > userTaxDetails.tax.totalTaxAmount) {
+  } else if (amount > Number(userTaxDetails.tax.totalTaxAmount)) {
     throw new CustomValidationError(404, 'You entered more than your tax fee.');
   } else if (amount === 0) {
     throw new CustomValidationError(404, 'You tried to pay 0 Euros.');
   }
 
-  userTaxDetails.tax.totalTaxAmount -= amount;
-  userTaxDetails.tax.socialInsurance = 0;
-  userTaxDetails.tax.generalHealthSystem = 0;
-  userTaxDetails.tax.incomeTax = 0;
-  userTaxDetails.monthlyNetSalary = 0;
+  userTaxDetails.tax.totalTaxAmount = String(
+    Number(userTaxDetails.tax.totalTaxAmount) - amount
+  );
+  userTaxDetails.tax.socialInsurance = '0';
+  userTaxDetails.tax.generalHealthSystem = '0';
+  userTaxDetails.tax.incomeTax = '0';
+  userTaxDetails.monthlyNetSalary = '0';
   userTaxDetails.status = 'paid';
 
   return await userTaxDetails.save();

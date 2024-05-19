@@ -5,12 +5,16 @@ import { Tax } from '../interfaces/tax';
  * @param {Number} grossSalary salary which is used to calculate taxes.
  * @returns An object contains some taxes and net salary.
  */
-export const calculateTaxes = (grossSalary: number): Tax => {
-  const socialInsurance = (grossSalary * 8.8) / 100;
-  const generalHealthSystem = (grossSalary * 2.65) / 100;
-  const incomeTax = (grossSalary * 4) / 100;
+export const calculateTaxes = (grossSalary: number | string): Tax => {
+  if (typeof grossSalary === 'string') {
+    grossSalary = Number(grossSalary);
+  }
 
-  const totalTaxAmount = socialInsurance + generalHealthSystem + incomeTax;
+  var socialInsurance = (grossSalary * 8.8) / 100;
+  var generalHealthSystem = (grossSalary * 2.65) / 100;
+  var incomeTax = (grossSalary * 4) / 100;
+
+  var totalTaxAmount = socialInsurance + generalHealthSystem + incomeTax;
 
   return {
     socialInsurance: Number(socialInsurance.toFixed(2)),
@@ -27,9 +31,16 @@ export const calculateTaxes = (grossSalary: number): Tax => {
  * @returns monthly net salary based on gross salary and total tax.
  */
 export const calculateMonthlyNetSalary = (
-  grossSalary: number,
-  totalTax: number
+  grossSalary: number | string,
+  totalTax: number | string
 ): number => {
+  if (typeof grossSalary === 'string') {
+    grossSalary = Number(grossSalary);
+  }
+  if (typeof totalTax === 'string') {
+    totalTax = Number(totalTax);
+  }
+
   const monthlyNetSalary = grossSalary - totalTax;
   return Number(monthlyNetSalary.toFixed(2));
 };

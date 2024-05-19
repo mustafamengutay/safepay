@@ -2,13 +2,13 @@ import { Schema, model, Types } from 'mongoose';
 
 interface ITax {
   userId: Types.ObjectId;
-  grossSalary: number;
-  monthlyNetSalary: number;
+  grossSalary: string;
+  monthlyNetSalary: string;
   tax: {
-    socialInsurance: number;
-    generalHealthSystem: number;
-    incomeTax: number;
-    totalTaxAmount: number;
+    socialInsurance: string;
+    generalHealthSystem: string;
+    incomeTax: string;
+    totalTaxAmount: string;
   };
   status: string;
 }
@@ -21,39 +21,33 @@ const taxSchema = new Schema<ITax>({
     index: true,
   },
   grossSalary: {
-    type: Number,
-    default: 0,
-    min: 0,
+    type: String,
+    default: '0',
   },
   monthlyNetSalary: {
-    type: Number,
-    default: 0,
-    min: 0,
+    type: String,
+    default: '0',
   },
   tax: {
     socialInsurance: {
-      type: Number,
+      type: String,
+      default: '0',
       required: true,
-      default: 0,
-      min: 0,
     },
     generalHealthSystem: {
-      type: Number,
+      type: String,
+      default: '0',
       required: true,
-      default: 0,
-      min: 0,
     },
     incomeTax: {
-      type: Number,
+      type: String,
+      default: '0',
       required: true,
-      default: 0,
-      min: 0,
     },
     totalTaxAmount: {
-      type: Number,
+      type: String,
+      default: '0',
       required: true,
-      default: 0,
-      min: 0,
     },
   },
   status: {
