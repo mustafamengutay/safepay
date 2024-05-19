@@ -1,6 +1,7 @@
 import { CustomValidationError } from '../interfaces/error';
 
 import Tax from '../models/tax';
+import { encrypt } from '../utils/des';
 
 import { calculateMonthlyNetSalary, calculateTaxes } from '../utils/tax';
 
@@ -26,11 +27,13 @@ export const calculateTaxesService = async (userId: string) => {
     };
   }
 
-  const taxes = calculateTaxes(userTaxDetails.grossSalary);
+  let taxes = calculateTaxes(userTaxDetails.grossSalary);
   const monthlyNetSalary = calculateMonthlyNetSalary(
     userTaxDetails.grossSalary,
     taxes.totalTaxAmount
   );
+
+  taxes = encrypt(taxes);
 
   // TODO: Apply the DES algorithm
   userTaxDetails.tax.socialInsurance = taxes.socialInsurance.toString();

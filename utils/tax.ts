@@ -17,10 +17,10 @@ export const calculateTaxes = (grossSalary: number | string): Tax => {
   var totalTaxAmount = socialInsurance + generalHealthSystem + incomeTax;
 
   return {
-    socialInsurance: Number(socialInsurance.toFixed(2)),
-    generalHealthSystem: Number(generalHealthSystem.toFixed(2)),
-    incomeTax: Number(incomeTax.toFixed(2)),
-    totalTaxAmount: Number(totalTaxAmount.toFixed(2)),
+    socialInsurance: String(socialInsurance.toFixed(2)),
+    generalHealthSystem: String(generalHealthSystem.toFixed(2)),
+    incomeTax: String(incomeTax.toFixed(2)),
+    totalTaxAmount: String(totalTaxAmount.toFixed(2)),
   };
 };
 

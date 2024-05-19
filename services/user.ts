@@ -1,6 +1,7 @@
 import { CustomValidationError } from '../interfaces/error';
 
 import Tax from '../models/tax';
+import { decrypt } from '../utils/des';
 
 export const updateUserGrossSalaryService = async (
   userId: string,
@@ -41,7 +42,7 @@ export const getTaxesService = async (userId: string) => {
   return {
     message: `User's taxes were fetched successfully!`,
     status: userTaxDetails.status,
-    taxes: userTaxDetails.tax,
+    taxes: decrypt(userTaxDetails.tax),
   };
 };
 
