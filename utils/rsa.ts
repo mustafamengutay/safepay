@@ -1,4 +1,4 @@
-import { generateKeyPairSync } from 'crypto';
+import { generateKeyPairSync, createSign } from 'crypto';
 
 export const { publicKey, privateKey } = generateKeyPairSync('rsa', {
   modulusLength: 2048,
@@ -34,4 +34,18 @@ export const xorHash = (data: any) => {
     (hash >> 8) & 0xff,
     hash & 0xff,
   ]);
+};
+
+/**
+ *
+ * @param hashedData Any hashed data
+ * @param privateKey RSA private key
+ * @returns signed data
+ */
+export const signHashedData = (hashedData: any, privateKey: string): string => {
+  const sign = createSign('RSA-SHA256');
+  sign.update(hashedData);
+  sign.end();
+
+  return sign.sign(privateKey, 'hex');
 };
