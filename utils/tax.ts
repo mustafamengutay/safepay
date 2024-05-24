@@ -31,14 +31,18 @@ export const calculateTaxes = (grossSalary: number | string): Tax => {
  * @returns monthly net salary based on gross salary and total tax.
  */
 export const calculateMonthlyNetSalary = (
-  grossSalary: number | string,
-  totalTax: number | string
+  grossSalary: number | string = 0,
+  totalTax: number | string = 0
 ): number => {
-  if (typeof grossSalary === 'string') {
-    grossSalary = Number(grossSalary);
+  grossSalary = Number(grossSalary);
+  totalTax = Number(totalTax);
+
+  if (Number.isNaN(grossSalary) || Number.isNaN(totalTax)) {
+    throw new Error('both grossSalary and totalTax must be numeric values');
   }
-  if (typeof totalTax === 'string') {
-    totalTax = Number(totalTax);
+
+  if (grossSalary < 0 || totalTax < 0) {
+    throw new Error('the argument can not be a negative');
   }
 
   const monthlyNetSalary = grossSalary - totalTax;
