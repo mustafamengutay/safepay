@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon app.ts"
+    "dev": "nodemon app.ts",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -28,16 +29,22 @@
     "socket.io": "^4.7.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/preset-typescript": "^7.24.6",
     "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",
     "@types/express": "^4.17.21",
     "@types/express-rate-limit": "^6.0.0",
     "@types/express-validator": "^3.0.0",
+    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.12.7",
     "@types/socket.io": "^3.0.2",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
