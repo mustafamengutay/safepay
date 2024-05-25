@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { getIO } from '../sockets/socket';
-import { calculateTaxesService, listTaxes } from '../services/staff';
+import StaffService from '../services/staff';
+
+const staffService = new StaffService();
 
 /**
  * @description     Calculate a user's taxes
@@ -15,7 +17,7 @@ export const postCalculateTaxes = async (
   const { userId } = req.body;
 
   try {
-    const userTaxes = await calculateTaxesService(userId);
+    const userTaxes = await staffService.calculateTaxes(userId);
 
     getIO().emit('taxInvoiceNotification', {
       message: 'Taxes calculated!',
@@ -44,7 +46,7 @@ export const getAllTaxes = async (
   next: NextFunction
 ) => {
   try {
-    const taxList = await listTaxes();
+    const taxList = await staffService.listTaxes();
 
     res.status(200).json({
       message: taxList.message,

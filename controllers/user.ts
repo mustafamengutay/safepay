@@ -1,11 +1,9 @@
 import { Response, NextFunction } from 'express';
 import { CustomRequest } from '../interfaces/request';
 
-import {
-  updateUserGrossSalaryService,
-  getTaxesService,
-  payTaxesService,
-} from '../services/user';
+import UserService from '../services/user';
+
+const userService = new UserService();
 
 /**
  * @description     Update a user's gross salary
@@ -20,7 +18,7 @@ export const updateUserGrossSalary = async (
   const { grossSalary } = req.body;
 
   try {
-    const updatedUserTaxDetails = await updateUserGrossSalaryService(
+    const updatedUserTaxDetails = await userService.updateUserGrossSalary(
       userId!,
       grossSalary
     );
@@ -49,7 +47,7 @@ export const getTaxes = async (
   const { userId } = req;
 
   try {
-    const userTaxDetails = await getTaxesService(userId!);
+    const userTaxDetails = await userService.getTaxes(userId!);
 
     res.status(200).json(userTaxDetails);
   } catch (error: any) {
@@ -73,7 +71,7 @@ export const postPayTaxes = async (
   const amount = Number(req.body.amount);
 
   try {
-    await payTaxesService(userId!, amount);
+    await userService.payTaxes(userId!, amount);
 
     res.status(200).json({
       message: 'Your taxes were successfully paid!',

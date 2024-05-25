@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
-import {
-  createAdminService,
-  createStaffService,
-  createUserService,
-} from '../services/admin';
+import AdminService from '../services/admin';
+
+const adminService = new AdminService();
 
 /**
  * @description     Create an admin
@@ -18,7 +16,7 @@ export const postCreateAdmin = async (
   const { email, password } = req.body;
 
   try {
-    const admin = await createAdminService(email, password);
+    const admin = await adminService.createAdmin(email, password);
 
     res.status(201).json({
       message: 'Admin created successfully!',
@@ -44,7 +42,7 @@ export const postCreateStaff = async (
   const { email, password } = req.body;
 
   try {
-    const staff = await createStaffService(email, password);
+    const staff = await adminService.createStaff(email, password);
 
     res.status(201).json({
       message: 'Staff created successfully!',
@@ -70,7 +68,7 @@ export const postCreateUser = async (
   const { name, surname, email, password } = req.body;
 
   try {
-    const user = await createUserService(name, surname, email, password);
+    const user = await adminService.createUser(name, surname, email, password);
 
     res.status(201).json({
       message: 'User created successfully!',

@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { loginService } from '../services/auth';
+import LoginService from '../services/auth';
+
+const loginService = new LoginService();
 
 /**
  * @description     Login to the system as a user
@@ -14,7 +16,7 @@ export const postLogin = async (
   const { email, password } = req.body;
 
   try {
-    const loginDetails = await loginService(email, password);
+    const loginDetails = await loginService.login(email, password);
 
     res.status(200).json({
       message: 'Login successful!',
