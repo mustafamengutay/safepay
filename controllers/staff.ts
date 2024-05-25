@@ -27,6 +27,7 @@ export const postCalculateTaxes = async (
     res.status(200).json({
       message: userTaxes.message,
       userTaxDetails: userTaxes.details,
+      signature: userTaxes.signature,
     });
   } catch (error: any) {
     if (!error.statusCode) {
