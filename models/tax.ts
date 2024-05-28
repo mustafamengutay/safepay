@@ -52,8 +52,6 @@ const taxSchema = new Schema<ITax>({
   },
   status: {
     type: String,
-    default: 'not calculated',
-    required: true,
   },
 });
 
