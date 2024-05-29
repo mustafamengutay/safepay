@@ -3,7 +3,6 @@ import { CustomValidationError } from '../interfaces/error';
 import Tax from '../models/tax';
 
 import { encrypt } from '../utils/des';
-import { privateKey, publicKey, signHashedData, xorHash } from '../utils/rsa';
 
 import { calculateMonthlyNetSalary, calculateTaxes } from '../utils/tax';
 
@@ -48,9 +47,6 @@ export default class StaffService {
     userTaxDetails.monthlyNetSalary = monthlyNetSalary.toString();
     userTaxDetails.status = 'unpaid';
     await userTaxDetails.save();
-
-    const hashBuffer = xorHash(JSON.stringify(userTaxDetails.tax));
-    const signature = signHashedData(hashBuffer, privateKey);
 
     return {
       message: 'Taxes calculated!',
