@@ -53,10 +53,6 @@ export default class StaffService {
     return {
       message: 'Taxes calculated!',
       details: userTaxDetails,
-      hashBuffer,
-      signature,
-      publicKey,
-      privateKey,
     };
   };
 }

@@ -27,10 +27,6 @@ export const postCalculateTaxes = async (
     res.status(200).json({
       message: userTaxes.message,
       userTaxDetails: userTaxes.details,
-      hashedBuffer: userTaxes.hashBuffer,
-      signature: userTaxes.signature,
-      publicKey: userTaxes.publicKey,
-      privateKey: userTaxes.privateKey,
     });
   } catch (error: any) {
     if (!error.statusCode) {
