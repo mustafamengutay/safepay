@@ -9,7 +9,9 @@ import { calculateMonthlyNetSalary, calculateTaxes } from '../utils/tax';
 
 export default class StaffService {
   listTaxes = async () => {
-    const taxes = await Tax.find({ status: 'not calculated' });
+    const taxes = await Tax.find({ status: 'not calculated' }).populate(
+      'userId'
+    );
 
     return {
       message: 'All taxes were fetched!',
