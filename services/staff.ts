@@ -3,7 +3,7 @@ import { CustomValidationError } from '../interfaces/error';
 import Tax from '../models/tax';
 
 import { encrypt } from '../utils/des';
-import { privateKey, signHashedData, xorHash } from '../utils/rsa';
+import { privateKey, publicKey, signHashedData, xorHash } from '../utils/rsa';
 
 import { calculateMonthlyNetSalary, calculateTaxes } from '../utils/tax';
 
@@ -53,7 +53,10 @@ export default class StaffService {
     return {
       message: 'Taxes calculated!',
       details: userTaxDetails,
+      hashBuffer,
       signature,
+      publicKey,
+      privateKey,
     };
   };
 }
