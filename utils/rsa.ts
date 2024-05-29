@@ -1,4 +1,4 @@
-import { generateKeyPairSync, createSign } from 'crypto';
+import { generateKeyPairSync, createSign, createVerify } from 'crypto';
 
 export const { publicKey, privateKey } = generateKeyPairSync('rsa', {
   modulusLength: 2048,
@@ -48,4 +48,18 @@ export const signHashedData = (hashedData: any, privateKey: string): string => {
   sign.end();
 
   return sign.sign(privateKey, 'hex');
+};
+
+/**
+ * Verify given hashed data using signature which is created using the `RSA-SHA256` algorithm.
+ * @param hashedData Any hashed data
+ * @param signature
+ * @returns True if data is verified, otherwise, returns false.
+ */
+export const verifySignedData = (hashedData: any, signature: string) => {
+  const verify = createVerify('RSA-SHA256');
+  verify.update(hashedData);
+  verify.end();
+
+  return verify.verify(publicKey, signature, 'hex');
 };
