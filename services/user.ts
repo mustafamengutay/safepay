@@ -1,7 +1,9 @@
 import { CustomValidationError } from '../interfaces/error';
 
 import Tax from '../models/tax';
+
 import { decrypt } from '../utils/des';
+import { privateKey, publicKey, signHashedData, xorHash } from '../utils/rsa';
 
 export default class UserService {
   updateUserGrossSalary = async (userId: string, grossSalary: number) => {
@@ -37,10 +39,17 @@ export default class UserService {
       return { message: 'You have already paid your taxes.' };
     }
 
+    const hashBuffer = xorHash(JSON.stringify(userTaxDetails.tax));
+    const signature = signHashedData(hashBuffer, privateKey);
+
     return {
       message: `User's taxes were fetched successfully!`,
       status: userTaxDetails.status,
       taxes: decrypt(userTaxDetails.tax),
+      hashBuffer,
+      signature,
+      privateKey,
+      publicKey,
     };
   };
 
