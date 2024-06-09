@@ -149,9 +149,3 @@ To run this project, you will need to add the following environment variables to
 
 - <input type="checkbox" disabled /> Add caching layer
 - <input type="checkbox" disabled /> Implement security-based algorithms (DES, RSA, etc.).
-
-## Authors
-
-- [@Kedu88](https://github.com/Kedu88)
-- [@seyitahmetinci](https://github.com/seyitahmetinci)
-- [@mustafamengutay](https://www.github.com/octokatherine) @ Backend
