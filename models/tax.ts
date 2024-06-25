@@ -13,47 +13,52 @@ interface ITax {
   status: string;
 }
 
-const taxSchema = new Schema<ITax>({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-    index: true,
-  },
-  grossSalary: {
-    type: String,
-    default: '0',
-  },
-  monthlyNetSalary: {
-    type: String,
-    default: '0',
-  },
-  tax: {
-    socialInsurance: {
+const taxSchema = new Schema<ITax>(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      index: true,
+    },
+    grossSalary: {
       type: String,
       default: '0',
-      required: true,
     },
-    generalHealthSystem: {
+    monthlyNetSalary: {
       type: String,
       default: '0',
-      required: true,
     },
-    incomeTax: {
-      type: String,
-      default: '0',
-      required: true,
+    tax: {
+      socialInsurance: {
+        type: String,
+        default: '0',
+        required: true,
+      },
+      generalHealthSystem: {
+        type: String,
+        default: '0',
+        required: true,
+      },
+      incomeTax: {
+        type: String,
+        default: '0',
+        required: true,
+      },
+      totalTaxAmount: {
+        type: String,
+        default: '0',
+        required: true,
+      },
     },
-    totalTaxAmount: {
+    status: {
       type: String,
-      default: '0',
-      required: true,
     },
   },
-  status: {
-    type: String,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Tax = model<ITax>('Tax', taxSchema);
 
