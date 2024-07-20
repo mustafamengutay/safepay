@@ -5,12 +5,14 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { initializeSocket } from './sockets/socket';
 import os from 'os';
 import cluster from 'cluster';
 import morgan from 'morgan';
 import fs from 'fs';
 import path from 'path';
+
+import { initializeSocket } from './sockets/socket';
+// import { createRedisClient } from './configs/redisClient';
 
 import errorHandler from './middlewares/error';
 
@@ -64,9 +66,12 @@ if (cluster.isPrimary) {
 
   mongoose
     .connect(process.env.MONGO_URI!)
-    .then(() => {
+    .then(async () => {
       const server = app.listen(3000);
       console.log('Server is running!');
+
+      // await createRedisClient();
+
       initializeSocket(server).on('connection', () => {
         console.log('Client connected!');
       });
