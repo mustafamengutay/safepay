@@ -7,6 +7,18 @@ import { encrypt } from '../utils/des';
 import { calculateMonthlyNetSalary, calculateTaxes } from '../utils/tax';
 
 export default class StaffService {
+  private static instance: StaffService;
+
+  private constructor() {}
+
+  static getInstance() {
+    if (!StaffService.instance) {
+      StaffService.instance = new StaffService();
+    }
+
+    return StaffService.instance;
+  }
+
   listTaxes = async () => {
     const taxes = await Tax.find({ status: 'not calculated' })
       .sort({ createdAt: -1 })

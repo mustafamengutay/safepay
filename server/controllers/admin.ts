@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import AdminService from '../services/admin';
 
-const adminService = new AdminService();
+const adminService = AdminService.getInstance();
 
 /**
  * @description     Create an admin

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import LoginService from '../services/auth';
 
-const loginService = new LoginService();
+const loginService = LoginService.getInstance();
 
 /**
  * @description     Login to the system as a user

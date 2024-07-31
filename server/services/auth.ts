@@ -8,6 +8,18 @@ import Staff from '../models/staff';
 import User from '../models/user';
 
 export default class LoginService {
+  private static instance: LoginService;
+
+  private constructor() {}
+
+  static getInstance() {
+    if (!LoginService.instance) {
+      LoginService.instance = new LoginService();
+    }
+
+    return LoginService.instance;
+  }
+
   login = async (email: string, password: string) => {
     let user = await User.findOne({ email });
     if (!user) {

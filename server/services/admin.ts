@@ -6,6 +6,18 @@ import User from '../models/user';
 import Tax from '../models/tax';
 
 export default class AdminService {
+  private static instance: AdminService;
+
+  private constructor() {}
+
+  static getInstance() {
+    if (!AdminService.instance) {
+      AdminService.instance = new AdminService();
+    }
+
+    return AdminService.instance;
+  }
+
   createAdmin = async (email: string, password: string) => {
     const hashedPassword: string = await bcrypt.hash(password, 12);
 

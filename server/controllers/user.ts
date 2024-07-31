@@ -3,7 +3,7 @@ import { CustomRequest } from '../interfaces/request';
 
 import UserService from '../services/user';
 
-const userService = new UserService();
+const userService = UserService.getInstance();
 
 /**
  * @description     Update a user's gross salary

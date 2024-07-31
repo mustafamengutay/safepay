@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { getIO } from '../sockets/socket';
 import StaffService from '../services/staff';
 
-const staffService = new StaffService();
+const staffService = StaffService.getInstance();
 
 /**
  * @description     Calculate a user's taxes
