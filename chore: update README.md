@@ -7,25 +7,29 @@ Online Tax Payment System (OTPS) has three actors Sysadmin, Staff, and User. Sys
 Clone the project
 
 ```bash
-  git clone https://github.com/mustafamengutay/tax-payment-system.git
+  git clone https://github.com/mustafamengutay/safepay.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd tax-payment-system
+  cd safepay-main
 ```
 
 Install dependencies
 
 ```bash
-  npm install
+  npm i
+```
+
+```bash
+  npm run i-server
 ```
 
 Start the server
 
 ```bash
-  npm run start
+  npm run dev
 ```
 
 ## Environment Variables
