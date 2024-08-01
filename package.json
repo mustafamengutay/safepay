@@ -4,7 +4,8 @@
   "description": "Online Tax Payment System (OTPS) has three actors Sysadmin, Staff, and User. Sysadmin is responsible for introducing users to the system. Staff is responsible for entering/updating users’ tax records, calculating taxes, and sending users invoices for payment. The user receives invoices and pays. Users’ records are stored encrypted by DES. DES secret key is created/updated periodically by Staff. The server has a public/private RSA key pair. RSA digital signature is used when sending DES-encrypted invoices. RSA key pair is created/updated by Staff. The hash function (48 bits) used for the digital signature is obtained by XOR of plaintext blocks. Payments while travelling DES-encrypted are protected from tampering with by message authentication code (MAC).",
   "main": "index.js",
   "scripts": {
-    "dev": "cd server && nodemon app.ts"
+    "dev": "cd server && nodemon app.ts",
+    "i-server": "cd server && npm i"
   },
   "author": "",
   "license": "ISC",
